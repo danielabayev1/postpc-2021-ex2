@@ -49,11 +49,27 @@ public class SimpleCalculatorImplTest {
   @Test
   public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
     // todo: implement test
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.deleteLast();
+    assertEquals("0",calculatorUnderTest.output());
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.deleteLast();
+    assertEquals("57",calculatorUnderTest.output());
+    calculatorUnderTest.deleteLast();
+    assertEquals("5",calculatorUnderTest.output());
+    calculatorUnderTest.deleteLast();
+    assertEquals("0",calculatorUnderTest.output());
   }
 
   @Test
   public void when_callingClear_then_outputShouldBeCleared(){
     // todo: implement test
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.clear();
+    assertEquals("0",calculatorUnderTest.output());
+
   }
 
   @Test
@@ -107,9 +123,82 @@ public class SimpleCalculatorImplTest {
     calculatorUnderTest.insertDigit(3);
     assertEquals("-111-333",calculatorUnderTest.output());
 
+  }
 
-    // TODO: implement the test based on this method's name.
-    //  you can get inspiration from the test method `when_savingState_should_loadThatStateCorrectly()`
+  @Test
+  public void ch2(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertDigit(5);
+    assertEquals("5+7-125",calculatorUnderTest.output());
+  }
+
+  @Test
+  public void ch3(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.insertDigit(8);
+
+    assertEquals("8",calculatorUnderTest.output());
+  }
+
+  @Test
+  public void ch4(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.clear();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.clear();
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertEquals();
+
+    assertEquals("1",calculatorUnderTest.output());
+  }
+
+  @Test
+  public void ch5(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(4);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertEquals();
+
+    assertEquals("4",calculatorUnderTest.output());
+  }
+  @Test
+  public void ch6(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertEquals();
+
+    assertEquals("2",calculatorUnderTest.output());
   }
 
   // TODO:

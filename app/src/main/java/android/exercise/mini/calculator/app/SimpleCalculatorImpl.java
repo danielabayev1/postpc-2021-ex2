@@ -7,16 +7,14 @@ import java.util.List;
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
     // todo: add fields as needed
-    private List<String> calcInput = new ArrayList<>();
+    private List<String> calcInput = new ArrayList() {{
+        add("0");
+    }};
+    private boolean isFirst = true;
 
     @Override
     public String output() {
         // todo: return output based on the current state
-        if (this.calcInput.isEmpty()) {
-            return "0";
-        } else if (this.calcInput.size() == 1 && (this.calcInput.get(0).equals("+") || (this.calcInput.get(0).equals("-")))) {
-            return this.calcInput.get(0).equals("+") ? "0+" : "0-";
-        }
         StringBuilder calcOutput = new StringBuilder();
         for (String str : this.calcInput) {
             calcOutput.append(str);
@@ -29,6 +27,10 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     public void insertDigit(int digit) {
         // todo: insert a digit
         if (digit <= 9 && digit >= 0) {
+            if (isFirst) {
+                this.calcInput.remove(0);
+                isFirst = false;
+            }
             this.calcInput.add(String.valueOf(digit));
         } else {
             throw new NumberFormatException();
@@ -61,33 +63,45 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         }
     }
 
+    private int[] giveNextNum(int i) {
+        if (i >= this.calcInput.size()) {
+            return new int[]{0, this.calcInput.size()};
+        }
+        String num = "";
+        while (i < this.calcInput.size() && !(this.calcInput.get(i).equals("-")) && !(this.calcInput.get(i).equals("+"))) {
+            num += this.calcInput.get(i);
+            i++;
+        }
+        return new int[]{i, Integer.parseInt(num)};
+
+    }
+
     @Override
     public void insertEquals() {
         // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
         //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
-        int calcOutput = 0;
-        boolean operate = false;
-        String lastOperand = "";
-        String firstOperand = "";
         int i = 0;
-        while (i < calcInput.size()) {
-            while (!this.calcInput.get(i).equals("+") && !this.calcInput.get(i).equals("-")) {
-                firstOperand += this.calcInput.get(i);
-                i++;
-            }
-            lastOperand = this.calcInput.get(i);
-            i++;
-            while (!this.calcInput.get(i).equals("+") && !this.calcInput.get(i).equals("-")) {
-                lastOperand += this.calcInput.get(i);
-                i++;
-            }
-            calcOutput = lastOperand.equals("+") ?
-                    Integer.parseInt(firstOperand) + Integer.parseInt(lastOperand) :
-                    Integer.parseInt(firstOperand) - Integer.parseInt(lastOperand);
+        int[] ret;
+        String operand = "+";
+        int ans = 0;
+        int len = this.calcInput.size();
+        if(this.calcInput.get(0).equals("-")){
+             operand = "-";
+             i++;
+        }
+        else if(this.calcInput.get(0).equals("+")){
             i++;
         }
+        while (i < len) {
+            ret = giveNextNum(i);
+            ans = operand.equals("+") ? ans + ret[1] : ans - ret[1];
+            if (ret[0] < len) {
+                operand = this.calcInput.get(ret[0]);
+            }
+            i = ret[0] + 1;
+        }
         this.calcInput.clear();
-        this.calcInput.add(String.valueOf(calcOutput));
+        this.calcInput.add(String.valueOf(ans));
     }
 
     @Override
@@ -97,8 +111,12 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         //  if input was "12+3" and called `deleteLast()`, then delete the "3"
         //  if input was "12+" and called `deleteLast()`, then delete the "+"
         //  if no input was given, then there is nothing to do here
-        if (!this.calcInput.isEmpty()) {
-            this.deleteLast();
+        if (this.calcInput.size() >= 1) {
+            this.calcInput.remove(this.calcInput.size() - 1);
+            if (this.calcInput.isEmpty()) {
+                this.calcInput.add("0");
+                isFirst = true;
+            }
         }
     }
 
@@ -106,6 +124,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     public void clear() {
         // todo: clear everything (same as no-input was never given)
         this.calcInput.clear();
+        this.calcInput.add("0");
     }
 
     @Override
