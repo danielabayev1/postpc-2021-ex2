@@ -33,7 +33,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
             }
             this.calcInput.add(String.valueOf(digit));
         } else {
-            throw new NumberFormatException();
+            throw new RuntimeException();
         }
     }
 
