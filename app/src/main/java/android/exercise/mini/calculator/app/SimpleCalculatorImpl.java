@@ -88,21 +88,16 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
         int i = 0;
         int[] ret;
-        String operand = "+";
+        String operator = "+";
         int answer = 0;
         int len = this.calcInput.size();
-        // this if
-//        if (this.calcInput.get(0).equals("-")) {
-//            operand = "-";
-//            i++;
-//        } else if (this.calcInput.get(0).equals("+")) {
-//            i++;
-//        }
         while (i < len) {
+            // ret gets [first index after the number that fetched, the number]
             ret = giveNextNum(i);
-            answer = operand.equals("+") ? answer + ret[1] : answer - ret[1];
+            answer = operator.equals("+") ? answer + ret[1] : answer - ret[1];
+            // 'if' checks that we didn't come to the end of the Arraylist, so we noticed an operator
             if (ret[0] < len) {
-                operand = this.calcInput.get(ret[0]);
+                operator = this.calcInput.get(ret[0]);
             }
             i = ret[0] + 1;
         }
