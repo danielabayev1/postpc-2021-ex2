@@ -53,14 +53,15 @@ public class SimpleCalculatorImplTest {
     calculatorUnderTest.deleteLast();
     assertEquals("0",calculatorUnderTest.output());
     calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertMinus();
     calculatorUnderTest.insertDigit(7);
     calculatorUnderTest.insertDigit(8);
     calculatorUnderTest.deleteLast();
-    assertEquals("57",calculatorUnderTest.output());
+    assertEquals("5-7",calculatorUnderTest.output());
+    calculatorUnderTest.deleteLast();
+    assertEquals("5-",calculatorUnderTest.output());
     calculatorUnderTest.deleteLast();
     assertEquals("5",calculatorUnderTest.output());
-    calculatorUnderTest.deleteLast();
-    assertEquals("0",calculatorUnderTest.output());
   }
 
   @Test
@@ -99,6 +100,17 @@ public class SimpleCalculatorImplTest {
     SimpleCalculatorImpl secondCalculator = new SimpleCalculatorImpl();
     // TODO: implement the test based on this method's name.
     //  you can get inspiration from the test method `when_savingState_should_loadThatStateCorrectly()`
+
+    firstCalculator.insertDigit(3);
+    firstCalculator.insertMinus();
+    firstCalculator.insertDigit(5);
+    Serializable firstSavedState = firstCalculator.saveState();
+    secondCalculator.loadState(firstSavedState);
+    assertFalse(secondCalculator.isFirst);
+    assertEquals("3-5", secondCalculator.output());
+    secondCalculator.insertEquals();
+    assertEquals("-2", secondCalculator.output());
+
   }
 
   @Test
@@ -196,9 +208,23 @@ public class SimpleCalculatorImplTest {
     calculatorUnderTest.insertDigit(1);
     calculatorUnderTest.insertPlus();
     calculatorUnderTest.insertDigit(3);
-    calculatorUnderTest.insertEquals();
+//    calculatorUnderTest.insertEquals();
 
-    assertEquals("2",calculatorUnderTest.output());
+    assertEquals("0-1+3",calculatorUnderTest.output());
+  }
+
+  @Test
+  public void ch7(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.deleteLast();
+
+    assertEquals("0",calculatorUnderTest.output());
   }
 
   // TODO:
