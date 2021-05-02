@@ -212,4 +212,19 @@ public class AppFlowTest {
 
         assertEquals("0", textViewOutput.getText().toString());
     }
+
+    @Test
+    public void flowTest13() {
+        // run clicks on "234"
+        // change orientation and checks if it stays in the same state
+
+        for (View button : Arrays.asList(
+                 button2,button3, button4
+        )) {
+            button.performClick();
+        }
+        activityUnderTest.setRequestedOrientation(R.layout.activity_main);
+
+        assertEquals("234", textViewOutput.getText().toString());
+    }
 }
