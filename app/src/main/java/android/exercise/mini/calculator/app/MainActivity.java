@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,11 +89,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // todo: save calculator state into the bundle
+        outState.putSerializable("state",calculator.saveState());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // todo: restore calculator state from the bundle, refresh main text-view from calculator's output
+        this.calculator.loadState(savedInstanceState.getSerializable("state"));
+
+        //find main text-view
+        TextView mainTextView= (TextView)findViewById(R.id.textViewCalculatorOutput);
+
+        //initial main text-view based on calc's output
+        mainTextView.setText(calculator.output());
     }
 }
