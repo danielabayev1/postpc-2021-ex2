@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
      */
 
         //find main text-view
-        TextView mainTextView= (TextView)findViewById(R.id.textViewCalculatorOutput);
+        TextView mainTextView= findViewById(R.id.textViewCalculatorOutput);
 
         //initial main text-view based on calc's output
         mainTextView.setText(calculator.output());
